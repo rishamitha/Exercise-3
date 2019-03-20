@@ -1,0 +1,140 @@
+<html lang="en">
+  <head>
+    <title>Exercise 3 - DevC JavaScript Development Course</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Asap|Overpass');
+
+      body {
+        font-family: 'Asap', sans-serif;
+        margin: auto;
+      }
+
+      h1 {
+        font-family: 'Overpass', sans-serif;
+      }
+
+      #custom-form {
+        height: 30px;
+        border: thin solid black;
+        padding: 1px 1px 1px 2px;
+      }
+
+      #custom-form > input {
+        width: 80%;
+        height: 100%;
+        border: none;
+      }
+
+      #custom-form > button {
+        width: 19%;
+        margin: 0;
+        height: 100%;
+        color: #fff;
+        border: none;
+        background-color: #007bff;
+        float: right;
+      }
+
+
+      
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="text-center">Planets</h1>
+
+      <div class="row">
+        <div class="col-md-12">
+          <form action="#">
+            <div id="custom-form">
+              <input type="text" name="" id="planet-name" placeholder="Search by Planet's Name">
+              <button onclick="filter_data()">Browse</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-hover table-responsive">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</i></th>
+                <th>Rotation Period</th>
+                <th>Orbital Period</th>
+                <th>Diameter</th>
+                <th>Climate</th>
+                <th>Gravity</th>
+                <th>Terrain</th>
+                <th>Surface Water</th>
+                <th>Population</th>
+              </tr>
+            </thead>
+            <tbody id="container">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+      var container = document.getElementById('container');
+      var records = [];
+      var number  = 1;
+
+      function filter_data() {
+        var name = document.getElementById('planet-name').value;
+        show_data(name);
+      }
+
+      function show_data(filter = null) {
+        var results = data.results;
+
+        if (filter !== null) {
+          container.innerHTML = '';
+          results = results.filter(result => result.name.toLowerCase() == filter.toLowerCase());
+        }
+
+        results.forEach(function(result) {
+        var record;
+        record  = '<tr>';
+        record += '<td>' + number + '</td>';
+        record += '<td>' + result.name + '</td>';
+        record += '<td>' + result.rotation_period + '</td>';
+        record += '<td>' + result.orbital_period + '</td>';
+        record += '<td>' + result.diameter + '</td>';
+        record += '<td>' + result.climate + '</td>';
+        record += '<td>' + result.gravity + '</td>';
+        record += '<td>' + result.terrain + '</td>';
+        record += '<td>' + result.surface_water + '</td>';
+        record += '<td>' + result.population + '</td>';
+        record += '</tr>';
+
+        records.push(record);
+        number++;
+        });
+
+        container.innerHTML = records.join('');
+
+        if(records.length === 0) {
+          container.innerHTML = '<tr><td colspan="10" class="text-center"><i>Data Not Found</i> <br> <br> <button class="btn btn-primary" onclick="show_data()">Show All Data</button></td></tr>'
+        }
+
+        records = [];
+
+      }
+
+      document.addEventListener('DOMContentLoaded', (event) => {
+        show_data();
+      });
+
+
+    </script>
+  </body>
+</html>
